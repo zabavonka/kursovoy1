@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace kursovoy1
 {
+    
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

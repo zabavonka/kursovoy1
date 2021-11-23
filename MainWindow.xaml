@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursovoy1"
         mc:Ignorable="d"
-        Title="Log_in" Height="380" Width="400">
+        Title="Log_in" Height="365" Width="400">
     <Border Background="White" CornerRadius="20">
         <StackPanel Margin="20">
             <Grid>
@@ -35,17 +35,19 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Label Content="" FontSize="40" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+                <Label Content="" FontSize="30" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Label>
                 <Label Content="Имя пользователя" Foreground="#3d3d3d" FontSize="30" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
                 
-                <TextBox FontSize="35" Background="AliceBlue" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
-                <Label Content="" FontSize="20" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+                <TextBox FontSize="35" x:Name="Username" Background="AliceBlue" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
+                <Label Content="" FontSize="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"></Label>
             </Grid>
             
-                <Separator Background="Gray" ></Separator>
-            <Label Content="" FontSize="10" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"></Label>
-                <Label Grid.Row="1"  Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center">
-                    <Hyperlink TextDecorations="None" Foreground="Blue" Click="Registration" FontSize="30">Собрать</Hyperlink>
+            <Label Grid.Row="1"  Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center">
+                <Hyperlink TextDecorations="None" Foreground="Blue" Click="LogIn" FontSize="30">Войти</Hyperlink>
+            </Label>
+            <Separator Background="Gray" ></Separator>
+            <Label Grid.Row="1"  Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center">
+                    <Hyperlink TextDecorations="None" Foreground="Blue" Click="Registr" FontSize="30">Создать</Hyperlink>
                 </Label>
 
         </StackPanel>
