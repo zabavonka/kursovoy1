@@ -31,10 +31,6 @@ namespace kursovoy1
         {
             this.Close();
         }
-        void GetDBName()
-        {
-
-        }
         void Registr(object sender, RoutedEventArgs e)
         {
             Application.Current.Properties["username"] = Username.Text;
@@ -42,15 +38,12 @@ namespace kursovoy1
             var exist = File.Exists(Username.Text + ".db");
             if (exist == true)
             {
-                MessageBox.Show("Такая база данных уже существует!");
+                MessageBox.Show("Такой пользователь уже существует!");
             }
             else
             {
                 SQLiteConnection.CreateFile(App.Current.Properties["dbname"].ToString());
-                SQLQuery(App.Current.Properties["dbname"].ToString(), @"CREATE TABLE [products] (
-                    [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    [name] TEXT NOT NULL,
-                    [kkl] integer NOT NULL);
+                SQLQuery(App.Current.Properties["dbname"].ToString(), @"
                 CREATE TABLE [bludo] (
                     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     [name] TEXT NOT NULL);
@@ -58,14 +51,7 @@ namespace kursovoy1
                     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     [id_bludo] integer NOT NULL,
                     [text] TEXT NOT NULL,
-                    CONSTRAINT [fk_howto_bludo_1] FOREIGN KEY([id_bludo]) REFERENCES [bludo]([id]) ON DELETE CASCADE);
-                CREATE TABLE [usedproducts] (
-                    [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    [id_bludo] integer NOT NULL,
-                    [id_product] integer NOT NULL,
-                    [gramm] integer NOT NULL,
-                    CONSTRAINT [fk_usedproducts_products_1] FOREIGN KEY([id_product]) REFERENCES [products]([id]) ON DELETE RESTRICT,
-                    CONSTRAINT [fk_usedproducts_bludo_1] FOREIGN KEY([id_bludo]) REFERENCES [bludo]([id]) ON DELETE CASCADE)");
+                    CONSTRAINT [fk_howto_bludo_1] FOREIGN KEY([id_bludo]) REFERENCES [bludo]([id]) ON DELETE CASCADE);");
                 MessageBox.Show(string.Format("{0}", App.Current.Properties["dbname"].ToString()));
                 
             }
@@ -91,7 +77,7 @@ namespace kursovoy1
                 general.Show();
             } else
             {
-                MessageBox.Show("Такой базы данных нет!");
+                MessageBox.Show("Пользователь не найден!");
             }
                 
 
