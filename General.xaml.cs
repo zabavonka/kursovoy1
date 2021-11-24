@@ -33,10 +33,61 @@ namespace kursovoy1
         }
         private void btn_save(object sender, RoutedEventArgs e)//TODO
         {
-            //string[] defData = { "a", "b" };
-
-            //receptsList.Items.Add(defData[0]);
+            List<List<string>> sqldata = SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                SELECT bludo.id
+                FROM bludo
+                WHERE bludo.name = '{Title.Text}'
+            ", 1);
+            if (sqldata.Count == 1)
+            {
+                SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                UPDATE howto
+                SET text = ('{HowTo.Text}')
+                WHERE id_bludo = {sqldata[0][0]};
+            ", 0);
+            } else
+            {
+                SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                INSERT INTO bludo (name)
+                VALUES ('{Title.Text}')
+            ", 0);
+                List<List<string>> id = SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                SELECT bludo.id
+                FROM bludo
+                WHERE bludo.name = '{Title.Text}'
+            ", 1);
+                SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                INSERT INTO howto (text, id_bludo)
+                VALUES ('{HowTo.Text}', {id[0][0]})
+            ", 0);
+                
+            }
+            updateRecipes();
         }
+
+        private void btn_delete(object sender, RoutedEventArgs e)
+        {
+            List<List<string>> id = SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                SELECT bludo.id
+                FROM bludo
+                WHERE bludo.name = '{Title.Text}'
+            ", 1);
+
+            SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                DELETE FROM howto
+                WHERE howto.id_bludo = {id[0][0]}
+                
+            ", 0);
+            SQLQueryRows(App.Current.Properties["dbname"].ToString(), $@"
+                DELETE FROM bludo
+                WHERE bludo.id = {id[0][0]}
+                
+            ", 0);
+            Title.Text = "Введите название блюда";
+            HowTo.Text = "Введите ингредиенты и способ приготовления";
+            updateRecipes();
+        }
+
         private void btn_newRecipe(object sender, RoutedEventArgs e)
         {
             Title.Text = "Введите название блюда";
@@ -46,8 +97,12 @@ namespace kursovoy1
         {
             //ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
             int selectedItem = (sender as ListBox).SelectedIndex;
-            Title.Text = (App.Current.Properties["recipes"] as List<List<string>>)[selectedItem][0];
-            HowTo.Text = (App.Current.Properties["recipes"] as List<List<string>>)[selectedItem][1];
+            if (selectedItem >= 0)
+            {
+                Title.Text = (App.Current.Properties["recipes"] as List<List<string>>)[selectedItem][0];
+               HowTo.Text = (App.Current.Properties["recipes"] as List<List<string>>)[selectedItem][1];
+            }
+            
         }
         /////////////////////////////////////
         private void updateRecipes()
@@ -56,7 +111,7 @@ namespace kursovoy1
                 SELECT bludo.name, howto.text
                 FROM bludo, howto
                 WHERE bludo.id = howto.id_bludo
-            ");
+            ", 2);
             App.Current.Properties["recipes"] = sqldata;
             receptsList.Items.Clear();
             for(int i = 0; i < sqldata.Count; i++)
@@ -64,7 +119,7 @@ namespace kursovoy1
                 receptsList.Items.Add(sqldata[i][0]);
             }
         }
-        private List<List<string>> SQLQueryRows(string name, string query)
+        private List<List<string>> SQLQueryRows(string name, string query, int colCount)
         {
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0};", name));
             connection.Open();
@@ -75,8 +130,17 @@ namespace kursovoy1
             while (reader.Read())
             {
                 List<string> row = new List<string>();
-                row.Add(reader.GetString(0));
-                row.Add(reader.GetString(1));
+                for (int i = 0; i < colCount; i++)
+                {
+                    try
+                    {
+                        row.Add(reader.GetString(i));
+                    }
+                    catch {
+                        row.Add(reader.GetInt32(i).ToString());
+                    }
+                    
+                }
                 sqldata.Add(row);
             }
             connection.Close();

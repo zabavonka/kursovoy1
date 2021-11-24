@@ -34,9 +34,12 @@
                     <Label  FontWeight="Bold">
                         <Hyperlink TextDecorations="None" Foreground="#3d3d3d" Click="btn_save" FontSize="25">Сохранить</Hyperlink>
                     </Label>
-                    <Label Content="   "></Label>
+
                     <Label FontWeight="Bold">
-                        <Hyperlink TextDecorations="None" Foreground="#3d3d3d" Click="btn_newRecipe" FontSize="25">Создать новый рецепт</Hyperlink>
+                        <Hyperlink TextDecorations="None" Foreground="#3d3d3d" Click="btn_newRecipe" FontSize="25">Очистить</Hyperlink>
+                    </Label>
+                    <Label  FontWeight="Bold">
+                        <Hyperlink TextDecorations="None" Foreground="#3d3d3d" Click="btn_delete" FontSize="25">Удалить</Hyperlink>
                     </Label>
                 </StackPanel>
 
@@ -68,14 +71,7 @@
                 <TextBox x:Name="HowTo"  Margin="4,3,3,3" Text="Введите ингредиенты и способ приготовления" Foreground="#3d3d3d" BorderThickness="0" FontSize="40" Grid.Column="2" Grid.Row="3" TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Height="380" Grid.ColumnSpan="2" />
                 <ListBox x:Name="receptsList" Grid.RowSpan="4" Grid.Column="0" HorizontalAlignment="Left" Margin="0,53,0,0" Width="250" MaxWidth="250" FontWeight="Bold" Foreground="#3d3d3d" FontSize="20" SelectionChanged="list_select" SelectionMode="Single">
-                    <ListBoxItem>Еда бобра</ListBoxItem>
-                    <ListBoxItem>Еда енота</ListBoxItem>
-                    <!--<Label  FontWeight="Bold" Margin="3" MaxWidth="250">
-                        <Hyperlink TextDecorations="None"  Foreground="#3d3d3d" Click="ToShow" FontSize="20">Газы бобра</Hyperlink>
-                    </Label>
-                    <Label FontWeight="Bold" MaxWidth="250" Margin="3">
-                        <Hyperlink  TextDecorations="None" Foreground="#3d3d3d" Click="ToShow" FontSize="20">Жопа енота</Hyperlink>
-                    </Label> -->
+                    
                 </ListBox>
             </Grid>
         </StackPanel>
